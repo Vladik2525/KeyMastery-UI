@@ -1,71 +1,8 @@
-.main {
-    width: 100%;
-    height: 100vh;
+.main-text {
+    font-size: 2rem;
     display: flex;
-    background-size: cover;
-    background-position: center;
 }
 
-.groups {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    width: 30%;
-    background: #e5c200;
-}
-
-.groups i {
-    position: absolute;
-    top: 87%;
-    font-size: 60px;
-    left: 15%;
-}
-
-.group {
-    font-family: Inter;
-    font-weight: 400;
-    margin: 10px 10px 10px 10px;
-    background-color: #1d1d1d;
-    padding: 10px 0 10px 10px;
-    border-radius: 10px;
-    color: #e5c200;
-    box-shadow: 3px 2px 4px #1d1d1d;
-    cursor: pointer;
-}
-
-.current-group-id {
-    font-family: Inter;
-    font-weight: 400;
-    margin: 10px 10px 10px 10px;
-    background-color: #343434;
-    padding: 10px 0 10px 10px;
-    border-radius: 10px;
-    color: #e5c200;
-    box-shadow: 3px 2px 4px #1d1d1d;
-    cursor: pointer;
-}
-
-.current-group-id img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-.group:hover {
-    background-color: #2a2a2b;
-}
-
-.group img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-.contentGroupId {
-    display: flex;
-    background-color: #1d1d1d;
-    justify-content: center;
-    height: 100vh;
-    width: 100%;
-    cursor: pointer;
+.main-input {
+    border: 1px solid #1d1d1d;
 }
