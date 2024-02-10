@@ -5,6 +5,7 @@ import { fetchUser } from '../../store/reducers/user/UserService';
 import { $socket } from '../../http';
 import { CheckedSymbol, textSlice } from '../../store/reducers/text/slices/TextSlice';
 import { checkSymbols } from '../../store/reducers/text/TextService';
+import { EndTextModal } from './../../components/endTextModal/EndTextModal';
 
 interface MainPageProps {
   children?: React.ReactNode;
@@ -14,7 +15,11 @@ const MainPage: FC<MainPageProps> = () => {
   const dispatch = useAppDispatch();
   const { symbols, checkedSymbols } = useAppSelector(state => state.textReducer);
 
-  const [timer, setTimer] = React.useState(-1);
+  const [timer, setTimer] = useState(-1);
+  const [time] = useState(15);
+  const [modal, setModal] = useState<boolean>(false);
+
+  const [text, setText] = useState('');
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -32,33 +37,30 @@ const MainPage: FC<MainPageProps> = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (timer === 0) {
+      setText('');
+      setModal(true);
+    }
+  }, [timer]);
+
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(timer !== 0) {
       dispatch(textSlice.actions.removeSymbol(e.target.value));
+      setText(e.target.value);
 
       if (e.target.value.length === 1 && timer === -1) {
-        setTimer(16);
+        setTimer(time);
 
-        for (let i = 15; i >= 0; i--) {
+        for (let i = time; i >= 1; i--) {
           setTimeout(() => {
             setTimer((sec) => sec - 1);
-          }, 1000 * (15 - i));
+          }, 1000 * (time - i));
         }
       }
 
       dispatch(checkSymbols({ symbol: e.target.value[e.target.value.length - 1], index: e.target.value.length - 1 }));
     }
-  };
-
-  const [text, setText] = useState('hello');
-
-  const handleEdit = (event) => {
-    setText(event.target.textContent);
-  };
-
-  const handleSave = () => {
-    console.log(2345678);
-
   };
 
   return (
@@ -76,19 +78,25 @@ const MainPage: FC<MainPageProps> = () => {
           );
         })}
       </div>
-      <div contentEditable onInput={handleEdit}>
-        {text}
-        <button onClick={handleSave}>Save</button>
-      </div>
       <input
         className='main-input'
         type="text"
+        value={text}
         onChange={(e) => {
           handleTyping(e);
         }}
       />
       {timer >= 0 && <div className='timer'>{timer}</div>}
-      {timer === 0 && <div className='result'>{checkedSymbols.length / 5 * 4}</div>}
+      <div className='result'>
+        {timer === 0 && modal &&
+          <EndTextModal
+            time={time}
+            setTimer={setTimer}
+            isModal={modal}
+            setIsModal={setModal}
+          />
+        }
+      </div>
     </div>
   );
 };
