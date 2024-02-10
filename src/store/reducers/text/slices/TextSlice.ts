@@ -56,6 +56,9 @@ export const textSlice = createSlice({
       });
 
       state.checkedSymbols = newCheckedSymbols;
+    },
+    cleanCheckedSymbols(state) {
+      state.checkedSymbols = [];
     }
 
   }

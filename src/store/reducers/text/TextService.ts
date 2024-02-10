@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { textSlice } from './slices/TextSlice';
-import { $socket } from '../../../http';
+import $api, { $socket } from '../../../http';
 
 export const checkSymbols = createAsyncThunk(
   'check/symbols',
@@ -15,3 +15,11 @@ export const checkSymbols = createAsyncThunk(
       dispatch(textSlice.actions.textFetchingError('error'));
     }
   });
+
+export const updateText = createAsyncThunk('update/text', async (_, { dispatch }) => {
+  try {
+    await $api.post('text/update');
+  } catch (e) {
+    dispatch(textSlice.actions.textFetchingError('error'));
+  }
+});
